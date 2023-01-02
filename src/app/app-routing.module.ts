@@ -1,6 +1,3 @@
-import { AddPostComponent } from './posts/add-post/add-post.component';
-import { PostsListComponent } from './posts/posts-list/posts-list.component';
-import { CounterComponent } from './counter/counter/counter.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,14 +9,15 @@ const routes: Routes = [
   },
   {
     path: 'counter',
-    component: CounterComponent
+    loadChildren: () => import('./counter/counter.module').then(m => m.CounterModule),
   },
   {
     path: 'posts',
-    component: PostsListComponent,
-    children: [
-      {path: 'add', component: AddPostComponent},
-    ]
+    loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule),
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   }
 ];
 

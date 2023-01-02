@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>Update Post</h3>
+    <hr />
+    <form [formGroup]="updateForm" (ngSubmit)="onUpdatePost()">
+      <div class="mb-3">
+        <label>Title</label>
+        <input type="text" class="form-control" formControlName="title"/>
+        <div *ngIf="showErrors('title')" class="alert alert-info">{{showErrors('title', 6)}}</div>
+      </div>
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="description"></textarea>
+        <div class="alert alert-info" *ngIf="showErrors('description')">{{showErrors('description', 10)}}</div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Update Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- [disabled]="!postForm.valid" -->

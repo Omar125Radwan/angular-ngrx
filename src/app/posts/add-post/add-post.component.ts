@@ -1,3 +1,7 @@
+import { addPost } from './../state/post.action';
+import { AppState } from './../../store/app.state';
+import { Store } from '@ngrx/store';
+import { Post } from './../../models/post.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +12,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class AddPostComponent implements OnInit {
   postForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    ) { }
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
@@ -17,14 +24,15 @@ export class AddPostComponent implements OnInit {
     })
   }
 
-  showDescriptionErrors(): string | undefined {
-    const descriptionForm = this.postForm.get('description');
-    if(descriptionForm?.touched && ! descriptionForm.valid) {
-      if(descriptionForm.errors?.['required']) {
-        return 'Description is required';
+  //! Factory Function for showErros
+  showErrors(Name: string, min?: number): string | undefined {
+    const NameForm = this.postForm.get(Name);
+    if(NameForm?.touched && !NameForm.valid) {
+      if(NameForm.errors?.['required']) {
+        return `${Name} is required`;
       }
-      if(descriptionForm.errors?.['minlength']) {
-        return 'Description should be of minimum 10 chars length';
+      if(NameForm.errors?.['minlength']) {
+        return `${Name} Should be of minimum ${min} chars length`;
       }
     }
     return undefined;
@@ -34,6 +42,29 @@ export class AddPostComponent implements OnInit {
     if(!this.postForm.valid) {
       return;
     }
-    console.log(this.postForm.value);
+    const post: Post = {
+      title: this.postForm.value.title,
+      description: this.postForm.value.description,
+    };
+    this.store.dispatch(addPost({post}));
   }
 }
+
+
+
+
+
+
+
+/* showDescriptionErrors(): string | undefined {
+  const descriptionForm = this.postForm.get('description');
+  if(descriptionForm?.touched && !descriptionForm.valid) {
+    if(descriptionForm.errors?.['required']) {
+      return 'Description is required';
+    }
+    if(descriptionForm.errors?.['minlength']) {
+      return 'Description should be of minimum 10 chars length';
+    }
+  }
+  return undefined;
+} */
