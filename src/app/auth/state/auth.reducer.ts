@@ -5,7 +5,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 const _authReducer = createReducer(
   initialState,
   on(loginSuccess, (state, action) => {
-    console.log(action);
     return {
       ...state,
       user: action.user,
