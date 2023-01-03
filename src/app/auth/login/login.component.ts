@@ -1,3 +1,4 @@
+import { setLoadingSpinner } from './../../store/shared/shared.action';
 import { loginStart } from './../state/auth.actions';
 import { AppState } from './../../store/app.state';
 import { Store } from '@ngrx/store';
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
+    this.store.dispatch(setLoadingSpinner({status: true}));
     this.store.dispatch(loginStart({email, password}));
   }
 

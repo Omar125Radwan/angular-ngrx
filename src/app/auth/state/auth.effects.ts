@@ -1,3 +1,7 @@
+import { setLoadingSpinner } from './../../store/shared/shared.action';
+import { AppState } from 'src/app/store/app.state';
+import { Store } from '@ngrx/store';
+import { User } from './../../models/user.model';
 import { AuthService } from './../../services/auth.service';
 import { loginStart, loginSuccess } from './auth.actions';
 import { Injectable } from '@angular/core';
@@ -6,7 +10,11 @@ import { exhaustMap, map } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private store: Store<AppState>
+    ) {}
 
   login$ = createEffect(() => {
     return this.actions$.pipe(
@@ -14,7 +22,9 @@ export class AuthEffects {
     exhaustMap((action) => this.authService.login(action.email, action.password)
       .pipe(
         map((data) => {
-          return loginSuccess();
+          this.store.dispatch(setLoadingSpinner({status: false}));
+          const user: User = this.authService.formatUser(data);
+          return loginSuccess({ user });
         }),
       ))
     )}
