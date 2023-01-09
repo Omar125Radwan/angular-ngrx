@@ -10,13 +10,20 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.FIREBASE_API_KEY}`,
-      {email, password, returnSecureTokens: true}
-      )
+      { email, password, returnSecureTokens: true }
+    )
+  }
+
+  signUp(email: string, password: string): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.FIREBASE_API_KEY}`,
+      { email, password, returnSecureTokens: true }
+    )
   }
 
   formatUser(data: AuthResponseData) {
@@ -26,11 +33,13 @@ export class AuthService {
   }
 
   getErrorMessage(message: string) {
-    switch(message) {
+    switch (message) {
       case 'EMAIL_NOT_FOUND':
         return 'Email Not Found';
       case 'INVALID_PASSWORD':
         return 'Invalid Password';
+      case 'EMAIL_EXISTS':
+        return 'Email already exists';
       default:
         return 'Unkown error occurred, pleaste try again';
     }
