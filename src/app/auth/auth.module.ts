@@ -17,7 +17,7 @@ import { SignupComponent } from './signup/signup.component';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    EffectsModule.forFeature([AuthEffects]),
+    EffectsModule.forFeature(),
     ReactiveFormsModule,
   ]
 })

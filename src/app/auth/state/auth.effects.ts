@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
 import { setLoadingSpinner, setErrorMessage } from './../../store/shared/shared.action';
 import { AppState } from 'src/app/store/app.state';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { User } from './../../models/user.model';
 import { AuthService } from './../../services/auth.service';
-import { loginStart, loginSuccess, signupStart, signupSuccess } from './auth.actions';
+import { loginStart, loginSuccess, signupStart, signupSuccess, autoLogin } from './auth.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
@@ -27,6 +27,7 @@ export class AuthEffects {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user: User = this.authService.formatUser(data);
+            this.authService.setUserInLocalStorage(user);
             return loginSuccess({ user });
           }),
           catchError(errResp => {
@@ -48,6 +49,7 @@ export class AuthEffects {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user: User = this.authService.formatUser(data);
+            this.authService.setUserInLocalStorage(user);
             return loginSuccess({ user });
           }),
           catchError(errResp => {
@@ -69,6 +71,17 @@ export class AuthEffects {
       })
     )
   },
+    { dispatch: false }
+  );
+  autoLogin$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(autoLogin),
+        map((action) => {
+          const user = this.authService.getUserFromLocalStorage();
+        })
+      );
+    },
     { dispatch: false }
   );
 }
