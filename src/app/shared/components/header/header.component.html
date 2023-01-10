@@ -22,7 +22,9 @@
           <a class="nav-link" [routerLink]="['/auth/signup']">Signup</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white btn btn-danger" *ngIf="isAuthenticated | async" [routerLink]="['/']">Logout</a>
+          <a class="nav-link text-white btn btn-danger"
+          (click)="onLogout($event)"
+          *ngIf="isAuthenticated | async" [routerLink]="['/']">Logout</a>
         </li>
       </ul>
     </div>

@@ -1,3 +1,6 @@
+import { autoLogout } from './../auth/state/auth.actions';
+import { AppState } from './../store/app.state';
+import { Store } from '@ngrx/store';
 import { User } from './../models/user.model';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -10,9 +13,8 @@ import { Observable, ObservableInput, of } from 'rxjs';
 })
 export class AuthService {
   timeoutInterval: any;
-  obs!: ObservableInput<any>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<AppState>) { }
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
@@ -52,30 +54,39 @@ export class AuthService {
     // this.runTimeoutInterval(user);
   }
 
-  // runTimeoutInterval(user: User) {
-  //   const todaysDate = new Date().getTime();
-  //   const expireationDate = user.expireDate.getTime();
-  //   const timeInterval = expireationDate - todaysDate;
-  //   this.timeoutInterval = setTimeout(() => {
-  //     // logout function || refresh token
-  //   }, timeInterval);
-  // }
+  /* runTimeoutInterval(user: User) {
+    const todaysDate = new Date().getTime();
+    const expireationDate = user.expireDate.getTime();
+    const timeInterval = expireationDate - todaysDate;
+    this.timeoutInterval = setTimeout(() => {
+      this.store.dispatch(autoLogout());
+      // logout function || refresh token
+    }, timeInterval);
+  } */
 
   getUserFromLocalStorage() {
     const userDataString = localStorage.getItem('userData');
-    if(userDataString) {
+    if (userDataString) {
       const userData = JSON.parse(userDataString);
       const expirationDate = new Date(userData.expirationdate);
       const user = new User(
         userData.email,
         userData.token,
         userData.localId,
-        userData.expirationdate
-        );
-        // this.runTimeoutInterval(user);
-        return user;
+        expirationDate
+      );
+      // this.runTimeoutInterval(user);
+      return user;
     }
     return null;
+  }
+
+  logout() {
+    /* if (this.timeoutInterval) {
+      clearTimeout(this.timeoutInterval);
+      this.timeoutInterval = null;
+    } */
+    localStorage.removeItem('userData');
   }
 
 }
