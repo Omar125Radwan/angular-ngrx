@@ -1,3 +1,4 @@
+import { loadPosts } from './../state/post.action';
 import { Router } from '@angular/router';
 import { getPosts } from './../state/post.selector';
 import { Observable } from 'rxjs';
@@ -23,6 +24,7 @@ export class PostsListComponent implements OnInit {
     if(this.sotre.select(getPosts)) {
       this.posts$ = this.sotre.select(getPosts);
     }
+    this.sotre.dispatch(loadPosts());
   }
   onDeletePost(id: string) {
     if(confirm("Are you sure?")) {

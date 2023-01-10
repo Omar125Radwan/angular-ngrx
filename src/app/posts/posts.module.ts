@@ -1,3 +1,5 @@
+import { PostsEffects } from './state/post.effects';
+import { EffectsModule } from '@ngrx/effects';
 import { PostsListComponent } from './posts-list/posts-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -22,6 +24,7 @@ import { POST_STATE_NAME } from './state/post.selector';
     PostsRoutingModule,
     ReactiveFormsModule,
     StoreModule.forFeature(POST_STATE_NAME, postsReducer),
+    EffectsModule.forFeature([PostsEffects]),
   ],
 })
 export class PostsModule { }
