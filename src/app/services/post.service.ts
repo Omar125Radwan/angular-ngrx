@@ -30,4 +30,20 @@ export class PostService {
     )
   }
 
+  updatePost(post: Post) {
+    const postData = {
+      [post.id]: {title: post.title, description: post.description},
+    };
+    return this.http.patch(
+      `https://angularngrx-264df-default-rtdb.firebaseio.com/posts.json`,
+      postData
+    )
+  }
+
+  deletePost(id: string) {
+    return this.http.delete(
+      `https://angularngrx-264df-default-rtdb.firebaseio.com/posts/${id}.json`,
+    )
+  }
+
 }

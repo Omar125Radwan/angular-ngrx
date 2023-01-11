@@ -44,6 +44,7 @@ export class AddPostComponent implements OnInit {
     const post: Post = {
       title: this.postForm.value.title,
       description: this.postForm.value.description,
+      id: '',
     };
     this.store.dispatch(addPost({ post }));
   }
