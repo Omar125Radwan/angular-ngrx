@@ -14,8 +14,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let post of postData">
-          <td>{{post.id}}</td>
+        <tr *ngFor="let post of postData; let i = index">
+          <td>{{i + 1}}</td>
           <td>{{post.title}}</td>
           <td>{{post.description}}</td>
           <td>

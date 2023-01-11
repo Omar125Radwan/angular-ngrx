@@ -23,4 +23,11 @@ export class PostService {
     )
   }
 
+  addPost(post: Post): Observable<{ name: string }> {
+    return this.http.post< {name: string }>(
+      `https://angularngrx-264df-default-rtdb.firebaseio.com/posts.json`,
+      post
+    )
+  }
+
 }

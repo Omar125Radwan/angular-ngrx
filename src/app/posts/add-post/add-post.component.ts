@@ -1,9 +1,9 @@
-import { addPost } from './../state/post.action';
+import { addPost, addPostSuccess } from './../state/post.action';
 import { AppState } from './../../store/app.state';
 import { Store } from '@ngrx/store';
 import { Post } from './../../models/post.model';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-post',
@@ -45,7 +45,7 @@ export class AddPostComponent implements OnInit {
       title: this.postForm.value.title,
       description: this.postForm.value.description,
     };
-    this.store.dispatch(addPost({post}));
+    this.store.dispatch(addPost({ post }));
   }
 }
 
