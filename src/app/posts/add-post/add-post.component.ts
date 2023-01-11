@@ -13,7 +13,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class AddPostComponent implements OnInit {
   postForm!: FormGroup;
   constructor(
-    private fb: FormBuilder,
     private store: Store<AppState>,
     ) { }
 

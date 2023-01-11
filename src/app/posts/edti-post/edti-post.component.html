@@ -14,7 +14,7 @@
         <div class="alert alert-info" *ngIf="showErrors('description')">{{showErrors('description', 10)}}</div>
       </div>
       <div>
-        <button type="submit" class="btn btn-primary">Update Post</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!updateForm.valid">Update Post</button>
       </div>
     </form>
   </div>
