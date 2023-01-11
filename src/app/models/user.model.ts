@@ -3,14 +3,14 @@ export class User {
     private email: string,
     private token: string,
     private localId: string,
-    private expirationdate: Date = new Date("2023-03-25"),
-    ){}
+    private expirationDate: Date
+  ) {}
 
-    get expireDate() {
-      // return this.expirationdate;
-      return this.expirationdate;
-    }
-    get userToken() {
-      return this.token;
-    }
+  get expireDate() {
+    return this.expirationDate;
+  }
+
+  get userToken() {
+    return this.token;
+  }
 }

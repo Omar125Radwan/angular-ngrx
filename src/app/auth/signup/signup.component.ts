@@ -24,14 +24,14 @@ export class SignupComponent implements OnInit {
   //! Factory function for Errors
   showErrors(Name: string, min?: number): string | undefined {
     const nameControl = this.signUpForm.get(Name);
-    if(nameControl?.touched && !nameControl.valid) {
-      if(nameControl.errors?.['required']) {
+    if (nameControl?.touched && !nameControl.valid) {
+      if (nameControl.errors?.['required']) {
         return `${Name} is required`;
       }
-      if(nameControl.errors?.['minlength']) {
+      if (nameControl.errors?.['minlength']) {
         return `${Name} Should be of minimum ${min} chars length`;
       }
-      if(nameControl.errors?.['email']) {
+      if (nameControl.errors?.['email']) {
         return `Invalid Mail`;
       }
     }
@@ -39,13 +39,13 @@ export class SignupComponent implements OnInit {
   }
 
   onSignup(): void {
-    if(!this.signUpForm.valid) {
+    if (!this.signUpForm.valid) {
       return;
     }
     const email = this.signUpForm.value.email;
     const password = this.signUpForm.value.password;
-    this.store.dispatch(setLoadingSpinner({status: true}));
-    this.store.dispatch(signupStart({email, password}));
+    this.store.dispatch(setLoadingSpinner({ status: true }));
+    this.store.dispatch(signupStart({ email, password }));
   }
 
 }
