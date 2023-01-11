@@ -26,7 +26,7 @@ export class AuthEffects {
           map((data) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
-            const user: User = this.authService.formatUser(data);
+            const user = this.authService.formatUser(data);
             this.authService.setUserInLocalStorage(user);
             return loginSuccess({ user, redirect: true });
           }),
@@ -67,7 +67,7 @@ export class AuthEffects {
       ofType(...[loginSuccess, signupSuccess]),
       tap((action) => {
         this.store.dispatch(setErrorMessage({ message: '' }));
-        if(action.redirect) {
+        if (action.redirect) {
           this.router.navigate(['/']);
         }
       })

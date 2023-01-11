@@ -71,9 +71,9 @@ export class AuthService {
       const expirationDate = new Date(userData.expirationdate);
       const user = new User(
         userData.email,
+        // userData.idToken,
         userData.token,
         userData.localId,
-        expirationDate
       );
       // this.runTimeoutInterval(user);
       return user;
