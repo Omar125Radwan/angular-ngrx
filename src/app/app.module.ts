@@ -1,3 +1,4 @@
+import { CustomSerializer } from './store/router/custom-serializer';
 import { AuthTokenInterceptor } from './services/auth-token.interceptor';
 import { AuthEffects } from './auth/state/auth.effects';
 import { appReducer } from './store/app.state';
@@ -35,7 +36,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     StoreDevtoolsModule.instrument({
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+    }),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
