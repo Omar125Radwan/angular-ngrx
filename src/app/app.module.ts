@@ -15,6 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     StoreDevtoolsModule.instrument({
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
