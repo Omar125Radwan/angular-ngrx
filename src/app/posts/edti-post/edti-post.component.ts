@@ -14,11 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./edti-post.component.scss']
 })
 export class EdtiPostComponent implements OnInit, OnDestroy {
-  post: Post = {
-    id: '',
-    title: '',
-    description: ''
-  };
+  post: any;
   updateForm!: FormGroup;
   postSubscription!: Subscription;
   constructor(
@@ -29,20 +25,32 @@ export class EdtiPostComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.createForm();
+    this.postSubscription = this.store.select(getPostById)
+    .subscribe((post) => {
+      this.post = post;
+      this.updateForm.patchValue({
+        title: post?.title,
+        description: post?.description,
+      })
+    })
+    //? Good Solution
+    /* this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.postSubscription = this.store.select(getPostById({id}))
       .subscribe((data: any) => {
         this.post = data;
         this.createForm();
       });
-    });
+    }); */
   }
 
   createForm() {
     this.updateForm = new FormGroup({
-      title: new FormControl(this.post?.title, [Validators.required, Validators.minLength(6)]),
-      description: new FormControl(this.post?.description, [Validators.required, Validators.minLength(10)]),
+      // this.post?.title
+      title: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      // this.post?.description
+      description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
     });
   }
 

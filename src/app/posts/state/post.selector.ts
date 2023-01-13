@@ -1,3 +1,5 @@
+import { RouterStateUrl } from './../../store/router/custom-serializer';
+import { getCurrentRoute } from './../../store/router/router.selector';
 import { Post } from 'src/app/models/post.model';
 import { props } from '@ngrx/store';
 import { createSelector } from '@ngrx/store';
@@ -10,12 +12,22 @@ export const getPosts = createSelector(getPostState, (state) => {
   return state.posts;
 });
 
-export const getPostById = (props: { id: string | null }) =>
+//* Best Practice
+export const getPostById = createSelector(
+  getPosts,
+  getCurrentRoute,
+  (posts, route: RouterStateUrl) => {
+    return posts.find((post) => post.id === route.params['id']);
+  }
+)
+
+//? Good Solution
+/* export const getPostById = (props: { id: string | null }) =>
 createSelector(getPostState, (state) => {
   return state.posts.find((post: Post) => post.id === props.id);
-});
+}); */
 
-
+//!deprecated Solution
 /* export const getPostById = createSelector(getPostState, (state: any, props: any) => {
   return state.posts.find((post: Post) => post.id === props.id);
 }); */
