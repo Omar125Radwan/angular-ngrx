@@ -1,9 +1,10 @@
 import { Post } from './../../models/post.model';
-import { mergeMap, of, map, switchMap } from 'rxjs';
+import { mergeMap, map, switchMap, filter } from 'rxjs';
 import { loadPosts, loadPostsSuccess, addPostSuccess, addPost, updatePost, updatePostSuccess, deletePost, deletePostSuccess } from './post.action';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { PostService } from './../../services/post.service';
 import { Injectable } from '@angular/core';
+import { RouterNavigatedAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
 @Injectable()
 export class PostsEffects {
   constructor(private action$: Actions, private postsService: PostService) {
@@ -76,5 +77,24 @@ export class PostsEffects {
         );
     },
   )
+
+  getSinglePost$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(ROUTER_NAVIGATION),
+      filter((r: RouterNavigatedAction) => {
+        return r.payload.routerState.url.startsWith('/posts/details');
+      }),
+      map((r: any) => {
+          return r.payload.routerState['params']['id'];
+      }),
+      switchMap((id) => {
+        return this.postsService.getPostById(id)
+        .pipe(map((post) => {
+          const postData = [{...post, id}];
+          return loadPostsSuccess({posts: postData})
+        }));
+      })
+    );
+  })
 
 }

@@ -11,13 +11,15 @@ import { EdtiPostComponent } from './edti-post/edti-post.component';
 import { postsReducer } from './state/post.reducer';
 import { StoreModule } from '@ngrx/store';
 import { POST_STATE_NAME } from './state/post.selector';
+import { SinglePostComponent } from './single-post/single-post.component';
 
 
 @NgModule({
   declarations: [
     PostsListComponent,
     AddPostComponent,
-    EdtiPostComponent
+    EdtiPostComponent,
+    SinglePostComponent
   ],
   imports: [
     CommonModule,

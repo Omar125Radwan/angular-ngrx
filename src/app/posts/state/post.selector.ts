@@ -1,7 +1,5 @@
 import { RouterStateUrl } from './../../store/router/custom-serializer';
 import { getCurrentRoute } from './../../store/router/router.selector';
-import { Post } from 'src/app/models/post.model';
-import { props } from '@ngrx/store';
 import { createSelector } from '@ngrx/store';
 import { PostState } from './post.state';
 import { createFeatureSelector } from '@ngrx/store';
