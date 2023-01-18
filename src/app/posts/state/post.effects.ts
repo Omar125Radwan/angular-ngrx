@@ -5,6 +5,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { PostService } from './../../services/post.service';
 import { Injectable } from '@angular/core';
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { Update } from '@ngrx/entity/src';
 @Injectable()
 export class PostsEffects {
   constructor(private action$: Actions, private postsService: PostService) {
@@ -53,7 +54,13 @@ export class PostsEffects {
             return this.postsService.updatePost(action.post)
             .pipe(
               map((data) => {
-                return updatePostSuccess({ post: action.post })
+                const updatePost: Update<Post> = {
+                  id: action.post.id,
+                  changes: {
+                    ...action.post,
+                  }
+                }
+                return updatePostSuccess({ post: updatePost })
               })
             )
           })

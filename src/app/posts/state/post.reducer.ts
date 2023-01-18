@@ -1,5 +1,5 @@
 import { on } from '@ngrx/store';
-import { initialState } from './post.state';
+import { initialState, postsAdapter } from './post.state';
 import { createReducer } from '@ngrx/store';
 import { PostState } from './post.state';
 import { Action } from '@ngrx/store';
@@ -7,37 +7,38 @@ import { loadPostsSuccess, addPostSuccess, updatePostSuccess, deletePostSuccess 
 const _postsReducer = createReducer(
   initialState,
   on(addPostSuccess, (state, action) => {
-    let post = { ...action.post };
-    return {
-      ...state,
-      posts: [...state.posts, post],
-    }
+    return postsAdapter.addOne(action.post, state);
   }),
   on(updatePostSuccess, (state, action) => {
-    const updatePosts = state.posts.map(post => {
-      return action.post.id === post.id ? action.post : post;
-    })
-    return {
-      ...state,
-      posts: updatePosts,
-    }
+    return postsAdapter.updateOne(action.post, state);
   }),
   on(deletePostSuccess, (state, { id }) => {
-    const updatePosts = state.posts.filter(post => {
-      return post.id !== id;
-    });
-    return {
-      ...state,
-      posts: updatePosts,
-    }
+    return postsAdapter.removeOne(id, state);
   }),
   on(loadPostsSuccess, (state, action) => {
-    return {
-      ...state,
-      posts: action.posts,
-    }
+    return postsAdapter.setAll(action.posts, state);
   })
 );
 export function postsReducer(state: PostState | undefined, action: Action) {
   return _postsReducer(state, action);
 }
+
+
+
+
+
+
+//! addPostSucces
+/*  let post = { ...action.post };
+  return {
+    ...state,
+    posts: [...state.posts, post],
+  } */
+//! deletePostSuccess
+/* const updatePosts = state.posts.filter(post => {
+  return post.id !== id;
+});
+return {
+  ...state,
+  posts: updatePosts,
+} */
