@@ -26,14 +26,17 @@ export class EdtiPostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createForm();
-    this.postSubscription = this.store.select(getPostById)
-    .subscribe((post) => {
-      this.post = post;
-      this.updateForm.patchValue({
-        title: post?.title,
-        description: post?.description,
+    if(typeof(getPostById) !== undefined) {
+      this.postSubscription = this.store.select(getPostById)
+      .subscribe((post) => {
+        this.post = post;
+        this.updateForm.patchValue({
+          title: post?.title,
+          description: post?.description,
+        })
       })
-    })
+    }
+
     //? Good Solution
     /* this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
