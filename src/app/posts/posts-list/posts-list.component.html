@@ -16,8 +16,8 @@
       <tbody>
         <tr *ngFor="let post of postData; let i = index">
           <td>{{i + 1}}</td>
-          <td>{{post.title}}</td>
-          <td>{{post.description}}</td>
+          <td style="word-break: break-all;">{{post.title}}</td>
+          <td style="word-break: break-all;">{{post.description}}</td>
           <td>
             <a class="btn btn-primary me-2" [routerLink]="['edit', post.id]">Update</a>
             <a class="btn btn-secondary me-2" [routerLink]="['details', post.id]">Details</a>

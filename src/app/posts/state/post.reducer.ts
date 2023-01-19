@@ -7,7 +7,7 @@ import { loadPostsSuccess, addPostSuccess, updatePostSuccess, deletePostSuccess 
 const _postsReducer = createReducer(
   initialState,
   on(addPostSuccess, (state, action) => {
-    return postsAdapter.addOne(action.post, state);
+    return postsAdapter.addOne(action.post, {...state, count: state.count + 1});
   }),
   on(updatePostSuccess, (state, action) => {
     return postsAdapter.updateOne(action.post, state);
@@ -16,7 +16,7 @@ const _postsReducer = createReducer(
     return postsAdapter.removeOne(id, state);
   }),
   on(loadPostsSuccess, (state, action) => {
-    return postsAdapter.setAll(action.posts, state);
+    return postsAdapter.setAll(action.posts, {...state, count: state.count + 1});
   })
 );
 export function postsReducer(state: PostState | undefined, action: Action) {

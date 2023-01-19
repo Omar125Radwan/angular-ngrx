@@ -1,6 +1,6 @@
 import { loadPosts } from './../state/post.action';
 import { Router } from '@angular/router';
-import { getPosts } from './../state/post.selector';
+import { getCount, getPosts } from './../state/post.selector';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
